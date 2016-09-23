@@ -14,11 +14,13 @@
     "unlimitedStorage"
   ],
   "background": {
-    "scripts": ["js/lib/jquery-3.1.0.min.js",
+    "scripts": ["js/lib/jquery.min.js",
       "js/lib/dexie.min.js",
-
       "js/bg/indexedDb.js",
       "js/bg/stopwatch.js",
-      "js/bg/background.js"]
+      "js/bg/listener.js",
+      "js/bg/browserstate.js",
+      "js/bg/background.js"
+    ]
   }
 }

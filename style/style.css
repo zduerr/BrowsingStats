@@ -1,4 +1,87 @@
+html, body {height:100%;overflow:auto}
+
 #frame-size {
   width: 550px;
   height: 550px;
+}
+
+#header {
+  height: 35px;
+  background-color: #31b0d5;
+  border: solid 1px #2e6da4;
+  z-index: 100;
+  width: 100%;
+  position: fixed;
+}
+
+#menu-button {
+  padding-top: 12px;
+}
+
+.drawer-hamburger-icon {
+  margin-top: 5px;
+  background-color: whitesmoke;
+  transition: false;
+  -webkit-transition: false;
+  margin-left: 5px;
+}
+
+.drawer-hamburger-icon::before, .drawer-hamburger-icon::after {
+  background-color: whitesmoke;
+  transition: false;
+  -webkit-transition: false;
+}
+
+.drawer-hamburger-icon::before {
+  top: -6px;
+}
+
+.drawer-hamburger-icon::after {
+  top: 6px;
+}
+
+.favicon {
+  height: 16px;
+  width: 16px;
+}
+
+.icon-col {
+  width: 25px;
+}
+
+.top-header {
+  font-family: "Open Sans","Helvetica",Arial,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  font-size: 20px !important;
+  font-weight: normal;
+  color: #303333;
+}
+
+.banner {
+  margin-top: 40px;
+}
+
+#gear-icon {
+  margin-top: 6px;
+  margin-right: 16px;
+  float: right;
+}
+
+#time-header {
+  float: right;
+  padding-top: 10px;
+}
+
+.pointer-img {
+  cursor: pointer;
+}
+
+#menu-view {
+  text-align: left;
+  font-size: 20px;
+  padding-left: 8px;
+}
+
+.menu-link {
+  font-size: 12px;
 }

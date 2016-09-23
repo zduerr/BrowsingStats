@@ -3,45 +3,34 @@
 <head>
   <meta charset='UTF-8'>
   <title>Time Tracker</title>
-  <script src='../js/lib/jquery-3.1.0.min.js'></script>
+  <link rel='stylesheet' href='../style/drawer.min.css'>
+  <script src='../js/lib/jquery.min.js'></script>
   <script src='../js/lib/bootstrap.min.js'></script>
   <script src='../js/lib/dexie.min.js'></script>
+  <script src='../js/lib/drawer.min.js'></script>
+  <script src='../js/lib/iscroll.min.js'></script>
   <script src='../js/lib/angular.min.js'></script>
+  <script src='../js/lib/angular-route.min.js'></script>
   <script src='../js/controllers.js'></script>
   <script src='../js/services.js'></script>
   <link rel='stylesheet' href='../style/bootstrap.min.css'>
   <link rel='stylesheet' href='../style/style.css'>
 </head>
-<body id='frame-size' ng-controller='template'>
-<div class='container-fluid'>
-  <div class='col-xs-11'>
-    <table class='table table-condensed table-hover'>
-      <thead>
-      <tr>
-        <th>Site</th>
-        <th>Time</th>
-        <th>Percent</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr>
-        <td>www.google.com</td>
-        <td>3:42</td>
-        <td>12.34</td>
-      </tr>
-      <tr>
-        <td>www.google.com</td>
-        <td>3:42</td>
-        <td>12.34</td>
-      </tr>
-      <tr>
-        <td>www.google.com</td>
-        <td>3:42</td>
-        <td>12.34</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+<body class='drawer drawer--left' ng-controller='navigator' ng-cloak id='frame-size'>
+<header id='header'>
+  <button type='button' class='drawer-toggle drawer-hamburger' id='menu-button'>
+    <span class='drawer-hamburger-icon' id='icon'></span>
+  </button>
+  <nav class='drawer-nav' role='navigation'>
+    <ul class='drawer-menu'>
+      <li id='menu-view'>View</li>
+      <li><a ng-click="close()" class='drawer-menu-item menu-link' href='#/'>Today</a></li>
+      <li><a ng-click="close()" class='drawer-menu-item menu-link' href='#/week'>Week</a></li>
+      <li><a ng-click="close()" class='drawer-menu-item menu-link' href='#/all'>All Time</a></li>
+    </ul>
+  </nav>
+  <a class='pointer-img' id='gear-icon' href='#/options'><img src='/img/options.png' width='16px' height='16px'></a>
+</header>
+<div ng-view></div>
 </body>
 </html>

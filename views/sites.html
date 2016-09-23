@@ -1,0 +1,30 @@
+<main class='container-fluid'>
+  <h2 class='banner'>
+    <div class='row'>
+      <div class='col-xs-6 col-xs-offset-1'>
+        <span class='top-header'>{{title}}<small>{{date}}</small></span>
+      </div>
+      <div class='col-xs-5'>
+        <span class='top-header' id='time-header'><img src='/img/icon.png' width='14px' height='14px'> {{timeString}}</span>
+      </div>
+    </div>
+  </h2>
+  <table class='table table-condensed table-hover'>
+    <tbody>
+    <tr ng-repeat='i in list' ng-init='show[i] = false' ng-mouseenter='show[i] = true' ng-mouseleave='show[i] = false'>
+      <td class='icon-col'>
+        <span ng-if='show[i]'>
+          <span class='pointer-img'><img src='/img/cancel.png' width='12px' height='12px'></span>
+        </span>
+      </td>
+      <td>
+        <img src='{{i[2] == null ? "/img/icon.png" : i[2]}}' class='favicon'>
+        <a ng-href='{{i[0]}}' ng-click='util.linkClick($event)'>{{i[0]}}</a>
+      </td>
+      <td style='text-align: right'>{{i[1]}}</td>
+      <td style='text-align: right'>{{i[3]}}%
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</main>
