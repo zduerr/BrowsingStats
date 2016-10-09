@@ -1,87 +1,137 @@
-var app = angular.module('myApp', ['ngRoute'])
-    .config(['$compileProvider', function ($compileProvider) {
-        $compileProvider.imgSrcSanitizationWhitelist(/^\s*(https?|local|data|chrome-extension):/);
-        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension):/);
-    }]);
-
-
-angular.module('myApp').constant('chrome', window.chrome);
-angular.module('myApp').constant('Dexie', window.Dexie);
-
-
-app.config(function ($routeProvider, chrome) {
-    $routeProvider
-
-        .when('/', {
-            templateUrl: chrome.runtime.getURL('views/sites.html'),
-            controller: 'todayView'
-        })
-
-        .when('/week' , {
-            templateUrl: chrome.runtime.getURL('views/sites.html'),
-            controller: 'weekView'
-        })
-
-        .when('/all' , {
-            templateUrl: chrome.runtime.getURL('views/sites.html'),
-            controller: 'allView'
-        })
-
-        .when('/options' , {
-            templateUrl: chrome.runtime.getURL('views/options.html'),
-            controller: 'options'
-        })
-});
-
 app.controller('navigator', function ($scope) {
-    var d = $('.drawer');
-    d.drawer();
-    $scope.close = function() {
-        d.drawer('close');
-    }
+    $scope.current = 'today';
+    chrome.storage.local.get("toolTips", function(val){
+        if (val.hasOwnProperty("toolTips")) {
+            $scope.tips = val.toolTips;
+        } else {
+            $scope.tips = true;
+        }
+    });
 });
-
 
 app.controller('todayView', function ($scope, dexie, chrome, util) {
     $scope.util = util;
-    $scope.date = new Date().toDateString().slice(0,-5);
-    $scope.title = 'Today ';
-    dexie.getToday().then(function(result){
+    $scope.date = new Date().toDateString().slice(0, -5);
+    dexie.getToday().then(function (result) {
         $scope.list = result.list;
-        $scope.totalSeconds = result.totalSeconds;
-        $scope.timeString = util.secToStr($scope.totalSeconds);
+        $scope.timeString = util.secToStr(result.totalSeconds);
         $scope.$apply();
     });
+
+    $scope.addToFilter = function (idx, val) {
+        $scope.list.splice(idx, 1);
+        dexie.addSiteToFilter(val[0]);
+        dexie.getToday().then(function (result) {
+            $scope.timeString = util.secToStr(result.totalSeconds);
+            $scope.$apply();
+        });
+    };
 });
 
 app.controller('weekView', function ($scope, dexie, chrome, util) {
     $scope.util = util;
-    $scope.date = new Date(new Date() - (new Date().getDay())*86400000).toDateString().slice(0,-5) + " - " +
-        new Date().toDateString().slice(0,-5);
-    $scope.title = 'Week ';
-    dexie.getWeek().then(function(result){
+    $scope.date = new Date(new Date() - (7 * 86400000)).toDateString().slice(0, -5) + " - " +
+        new Date().toDateString().slice(0, -5);
+    dexie.getWeek().then(function (result) {
         $scope.list = result.list;
         $scope.totalSeconds = result.totalSeconds;
         $scope.timeString = util.secToStr($scope.totalSeconds);
         $scope.$apply();
     });
+    $scope.addToFilter = function (idx, val) {
+        $scope.list.splice(idx, 1);
+        dexie.addSiteToFilter(val[0]);
+        dexie.getToday().then(function (result) {
+            $scope.timeString = util.secToStr(result.totalSeconds);
+            $scope.$apply();
+        });
+    };
 });
 
-app.controller('allView', function ($scope, dexie, chrome, util) {
+app.controller('monthView', function ($scope, dexie, util) {
     $scope.util = util;
-    $scope.title = 'Since ';
-    dexie.getAllTime().then(function(result){
+    $scope.date = new Date(new Date() - (31 * 86400000)).toDateString().slice(0, -5) + " - " +
+        new Date().toDateString().slice(0, -5);
+    dexie.getMonth().then(function (result) {
         $scope.list = result.list;
         $scope.totalSeconds = result.totalSeconds;
         $scope.timeString = util.secToStr($scope.totalSeconds);
         $scope.$apply();
     });
-    dexie.getStartDate().then(function(result){
-        $scope.date = result;
-        $scope.$apply();
-    });
+    $scope.addToFilter = function (idx, val) {
+        $scope.list.splice(idx, 1);
+        dexie.addSiteToFilter(val[0]);
+        dexie.getToday().then(function (result) {
+            $scope.timeString = util.secToStr(result.totalSeconds);
+            $scope.$apply();
+        });
+    };
 });
 
-app.controller('options', function ($scope, chrome) {
+app.controller('options', function ($scope, dexie, chrome, util) {
+    chrome.storage.local.get({idleTimeOutSeconds: 300, focusTimeOutSeconds: 8}, function (val) {
+        if (val.hasOwnProperty("idleTimeOutSeconds")) {
+            $scope.idle = val.idleTimeOutSeconds;
+        } else {
+            $scope.idle = 300;
+        }
 
+        if (val.hasOwnProperty("focusTimeOutSeconds")) {
+            $scope.focus = val.focusTimeOutSeconds * 100;
+        } else {
+            $scope.focus = 8 * 100;
+        }
+    });
+
+    $scope.cleared = false;
+    $scope.deleteCheckbox = false;
+    $scope.filtered = dexie.getSortedFilterArray();
+    $scope.tips = $scope.$parent.tips;
+
+    $scope.focusDisplay = function () {
+        return util.secToStr($scope.focus / 100)
+    };
+    $scope.idleDisplay = function () {
+        return util.secToStr($scope.idle)
+    };
+
+    $scope.remove = function (idx) {
+        dexie.removeSiteFromFilter($scope.filtered[idx]);
+        $scope.filtered.splice(idx, 1);
+    };
+
+    $scope.checkboxToggle = function () {
+        $scope.deleteCheckbox = !$scope.deleteCheckbox;
+    };
+
+    $scope.tipsToggle = function () {
+        console.log($scope.tips);
+        $scope.$parent.tips = $scope.tips;
+        chrome.storage.local.set({toolTips: $scope.tips});
+    };
+
+    $scope.setOptions = function () {
+        chrome.extension.getBackgroundPage().listener.focusSeconds = $scope.focus / 100;
+        chrome.extension.getBackgroundPage().updateIdle($scope.idle)
+    };
+
+    //clear database
+    $scope.clear = function () {
+        $scope.cleared = true;
+        chrome.extension.getBackgroundPage().listener.currentSite.domain = "";
+        dexie.clearDB();
+    };
+
+    $scope.$watch('focus',
+        function () {
+            var scaled = $scope.focus / 100;
+            chrome.storage.local.set({focusTimeOutSeconds: scaled});
+        }
+    );
+
+    $scope.$watch('idle',
+        function () {
+            chrome.storage.local.set({idleTimeOutSeconds: $scope.idle});
+        }
+    );
 });

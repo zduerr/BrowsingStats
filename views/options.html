@@ -1,3 +1,83 @@
-<br>
-<br>
-<h1>Options</h1><a href='#/'>back</a>
+<div ng-cloak>
+  <div class='layout-padding'>
+    <md-slider-container class='sl-compress'>
+      <h6>Idle Timeout</h6>
+      <md-slider flex ng-model='idle' min='100' max='3599' step='20' aria-label='Idle Timeout' id='idle-slider'
+                 class='md-accent'
+                 md-range>
+      </md-slider>
+      <md-input-container>
+        <input flex type='text' ng-model-options='{ getterSetter: true }' ng-model='idleDisplay()'
+               aria-label='Idle Timeout'
+               aria-controls='idle slider'>
+      </md-input-container>
+    </md-slider-container>
+    <md-slider-container class='sl-compress'>
+      <h6>Focus Timeout</h6>
+      <md-slider flex ng-model='focus' min='200' max='12000' step='100' aria-label='Focus Timeout' id='focus-slider'
+                 class='md-accent'
+                 md-range>
+      </md-slider>
+      <md-input-container>
+        <input flex type='text' ng-model-options='{ getterSetter: true }' ng-model='focusDisplay()' ng-change='test()'
+               aria-label='Focus Timeout' aria-controls='focus slider'>
+      </md-input-container>
+    </md-slider-container>
+    <md-switch class='md-primary' aria-label='tool tip' ng-model='tips' ng-change='tipsToggle()'>
+      Tooltips: {{$parent.tips? 'On' : 'Off'}}
+    </md-switch>
+    <table class='table table-condensed table-hover'>
+      <thead>
+      <tr>
+        <th>
+          <div ng-if='$parent.tips'>
+            <md-icon class='help-icon' md-svg-icon='/img/help.svg'>
+              <md-tooltip md-direction='top'>
+                These Sites will not show up in your history
+              </md-tooltip>
+            </md-icon>
+          </div>
+          <div ng-if='!$parent.tips'>
+            <md-icon class='help-icon' md-svg-icon='/img/help.svg'></md-icon>
+          </div>
+        </th>
+        <th>Filtered Sites</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td class='icon-col'></td>
+        <td>chrome://settings/</td>
+      </tr>
+      <tr ng-repeat='i in filtered' ng-init='show[i] = false' ng-mouseenter='show[i] = true'
+          ng-mouseleave='show[i] = false'>
+        <td class='icon-col'>
+        <div ng-if='show[i]'>
+          <div ng-if='$parent.tips'>
+          <span class='pointer-img' ng-click='remove($index)'><img src='/img/cancel.png' width='12px'
+                                                                   height='12px'></span>
+            <md-tooltip>Remove from filter</md-tooltip>
+          </div>
+          <div ng-if='!$parent.tips'>
+          <span class='pointer-img' ng-click='remove($index)'><img src='/img/cancel.png' width='12px'
+                                                                   height='12px'></span>
+          </div>
+        </div>
+        </td>
+        <td>{{i}}</td>
+      </tr>
+      </tbody>
+    </table>
+    <div layout='row' class='compress' layout-align='left center'>
+      <md-button class='md-warn md-raised' ng-disabled='!deleteCheckbox' ng-click='clear()'>
+        Clear History
+      </md-button>
+      <span ng-if='cleared'> Done!</span>
+    </div>
+    <div layout='row' class='compress' id='compress-left'>
+      <md-checkbox ng-checked='deleteCheckbox' ng-click='checkboxToggle()'>
+        Click to Activate
+      </md-checkbox>
+    </div>
+  </div>
+</div>

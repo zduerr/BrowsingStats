@@ -1,30 +1,76 @@
-<main class='container-fluid'>
-  <h2 class='banner'>
-    <div class='row'>
-      <div class='col-xs-6 col-xs-offset-1'>
-        <span class='top-header'>{{title}}<small>{{date}}</small></span>
+<div ng-cloak>
+  <md-subheader class='md-primary'>
+    <div layout='row' layout-align='center center'>
+      <div flex='5'>
+        <div ng-if='$parent.tips'>
+          <div md-ink-ripple='#333' style='position:relative'>
+            <md-icon class='download-button help-icon subheader-icon'
+                     md-svg-icon='/img/dl.svg' ng-click='util.downloadCSV(list, date)'>
+              <md-tooltip md-direction='top'>
+                Download as .csv
+              </md-tooltip>
+            </md-icon>
+          </div>
+        </div>
+        <div ng-if='!$parent.tips'>
+          <div md-ink-ripple='#333' style='position:relative'>
+            <md-icon class='download-button help-icon subheader-icon' md-svg-icon='/img/dl.svg'
+                     ng-click='util.downloadCSV(list, date)'></md-icon>
+          </div>
+        </div>
       </div>
-      <div class='col-xs-5'>
-        <span class='top-header' id='time-header'><img src='/img/icon.png' width='14px' height='14px'> {{timeString}}</span>
+      <div flex='45' id='date-header'>
+        {{date}}
+      </div>
+      <div flex='50'>
+        <div ng-if='$parent.tips'>
+          <span class='time-header'>
+            <md-icon class='subheader-icon' md-svg-icon='/img/timer.svg'>
+            <md-tooltip md-direction='top'>
+            Total browsing time
+            </md-tooltip>
+            </md-icon> {{timeString}}
+          </span>
+        </div>
+        <div ng-if='!$parent.tips'>
+          <span class='time-header'>
+            <md-icon class='subheader-icon' md-svg-icon='/img/timer.svg'>
+            </md-icon> {{timeString}}
+          </span>
+        </div>
       </div>
     </div>
-  </h2>
-  <table class='table table-condensed table-hover'>
-    <tbody>
-    <tr ng-repeat='i in list' ng-init='show[i] = false' ng-mouseenter='show[i] = true' ng-mouseleave='show[i] = false'>
-      <td class='icon-col'>
-        <span ng-if='show[i]'>
-          <span class='pointer-img'><img src='/img/cancel.png' width='12px' height='12px'></span>
-        </span>
-      </td>
-      <td>
-        <img src='{{i[2] == null ? "/img/icon.png" : i[2]}}' class='favicon'>
-        <a ng-href='{{i[0]}}' ng-click='util.linkClick($event)'>{{i[0]}}</a>
-      </td>
-      <td style='text-align: right'>{{i[1]}}</td>
-      <td style='text-align: right'>{{i[3]}}%
-      </td>
-    </tr>
-    </tbody>
-  </table>
-</main>
+  </md-subheader>
+  <div class='layout-padding site-table'>
+    <table class='table table-condensed table-hover '>
+      <tbody>
+      <tr ng-repeat='i in list' ng-init='show[i] = false' ng-mouseenter='show[i] = true'
+          ng-mouseleave='show[i] = false'>
+        <td class='icon-col'>
+          <div ng-if='show[i]'>
+            <div ng-if='$parent.tips'>
+          <span class='pointer-img' ng-click='addToFilter($index, list[$index])'><img src='/img/cancel.png' width='12px'
+                                                                                      height='12px'>
+            <md-tooltip md-direction='top'>Add to filter</md-tooltip>
+
+          </span>
+            </div>
+            <div ng-if='!$parent.tips'>
+          <span class='pointer-img' ng-click='addToFilter($index, list[$index])'><img src='/img/cancel.png' width='12px'
+                                                                                      height='12px'>
+          </span>
+            </div>
+          </div>
+        </td>
+        <td>
+          <img ng-src='{{i[2] == null ? "/img/icon.png" : i[2]}}' class='favicon'>
+          <a ng-href='{{i[0]}}' ng-click='util.linkClick($event)'>{{i[0]}}</a>
+        </td>
+        <td style='text-align: right'>{{i[1]}}</td>
+        <td style='text-align: right'>{{i[3]}}%
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

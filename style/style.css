@@ -1,43 +1,9 @@
-html, body {height:100%;overflow:auto}
+html, body {
+  background-color: white;
+}
 
 #frame-size {
-  width: 550px;
-  height: 550px;
-}
-
-#header {
-  height: 35px;
-  background-color: #31b0d5;
-  border: solid 1px #2e6da4;
-  z-index: 100;
-  width: 100%;
-  position: fixed;
-}
-
-#menu-button {
-  padding-top: 12px;
-}
-
-.drawer-hamburger-icon {
-  margin-top: 5px;
-  background-color: whitesmoke;
-  transition: false;
-  -webkit-transition: false;
-  margin-left: 5px;
-}
-
-.drawer-hamburger-icon::before, .drawer-hamburger-icon::after {
-  background-color: whitesmoke;
-  transition: false;
-  -webkit-transition: false;
-}
-
-.drawer-hamburger-icon::before {
-  top: -6px;
-}
-
-.drawer-hamburger-icon::after {
-  top: 6px;
+  height: 500px;
 }
 
 .favicon {
@@ -49,13 +15,6 @@ html, body {height:100%;overflow:auto}
   width: 25px;
 }
 
-.top-header {
-  font-family: "Open Sans","Helvetica",Arial,sans-serif;
-  -webkit-font-smoothing: antialiased;
-  font-size: 20px !important;
-  font-weight: normal;
-  color: #303333;
-}
 
 .banner {
   margin-top: 40px;
@@ -67,10 +26,7 @@ html, body {height:100%;overflow:auto}
   float: right;
 }
 
-#time-header {
-  float: right;
-  padding-top: 10px;
-}
+
 
 .pointer-img {
   cursor: pointer;
@@ -85,3 +41,69 @@ html, body {height:100%;overflow:auto}
 .menu-link {
   font-size: 12px;
 }
+
+.filter-list {
+  list-style-type: none;
+}
+
+#menu {
+  top: 0px;
+  left: 0px;
+}
+
+#options-subheader > div.md-subheader-inner{
+  padding: 5px;
+}
+
+md-slider {
+  cursor: pointer;
+}
+
+#add-to-filter {
+  margin-top: 0;
+}
+
+.help-icon {
+  cursor: pointer;
+}
+
+.sl-compress {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.compress {
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+}
+
+#compress-left {
+  padding-left: 8px;
+}
+
+.site-table {
+  padding-top: 0;
+}
+
+.time-header {
+  float: right;
+}
+
+.md-subheader .md-subheader-inner {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.subheader-icon {
+  font-size: 18px;
+  height: 20px;
+  width: 20px;
+  min-height: 18px;
+  min-width: 18px;
+}
+
+.download-button:focus {
+  outline: none;
+}
+
+

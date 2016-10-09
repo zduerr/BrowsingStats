@@ -3,34 +3,43 @@
 <head>
   <meta charset='UTF-8'>
   <title>Time Tracker</title>
-  <link rel='stylesheet' href='../style/drawer.min.css'>
-  <script src='../js/lib/jquery.min.js'></script>
-  <script src='../js/lib/bootstrap.min.js'></script>
-  <script src='../js/lib/dexie.min.js'></script>
-  <script src='../js/lib/drawer.min.js'></script>
-  <script src='../js/lib/iscroll.min.js'></script>
-  <script src='../js/lib/angular.min.js'></script>
-  <script src='../js/lib/angular-route.min.js'></script>
-  <script src='../js/controllers.js'></script>
-  <script src='../js/services.js'></script>
+  <link rel='stylesheet' href='../style/angular-material.min.css'>
   <link rel='stylesheet' href='../style/bootstrap.min.css'>
   <link rel='stylesheet' href='../style/style.css'>
+
 </head>
-<body class='drawer drawer--left' ng-controller='navigator' ng-cloak id='frame-size'>
-<header id='header'>
-  <button type='button' class='drawer-toggle drawer-hamburger' id='menu-button'>
-    <span class='drawer-hamburger-icon' id='icon'></span>
-  </button>
-  <nav class='drawer-nav' role='navigation'>
-    <ul class='drawer-menu'>
-      <li id='menu-view'>View</li>
-      <li><a ng-click="close()" class='drawer-menu-item menu-link' href='#/'>Today</a></li>
-      <li><a ng-click="close()" class='drawer-menu-item menu-link' href='#/week'>Week</a></li>
-      <li><a ng-click="close()" class='drawer-menu-item menu-link' href='#/all'>All Time</a></li>
-    </ul>
-  </nav>
-  <a class='pointer-img' id='gear-icon' href='#/options'><img src='/img/options.png' width='16px' height='16px'></a>
-</header>
+<body ng-controller='navigator' ng-cloak id='frame-size'>
+<md-toolbar class='md-hue-3'>
+  <div class='md-toolbar-tools'>
+    <md-nav-bar md-selected-nav-item="current" aria-label='select view'>
+      <md-nav-item md-nav-href="#/" name="today">
+        <md-icon md-svg-icon="/img/one.svg"></md-icon> Today
+      </md-nav-item>
+      <md-nav-item md-nav-href="#/week" name="week">
+      <md-icon md-svg-icon="/img/seven.svg"></md-icon> Week
+      </md-nav-item>
+      <md-nav-item md-nav-href="#/month" name="all">
+        <md-icon md-svg-icon="/img/month.svg"></md-icon> Month
+      </md-nav-item>
+      <md-nav-item md-nav-href="#/options" name="options">
+        <md-icon md-svg-icon="/img/settings.svg"></md-icon> Options
+      </md-nav-item>
+    </md-nav-bar>
+  </div>
+</md-toolbar>
 <div ng-view></div>
 </body>
+<script src='../js/lib/jquery.min.js'></script>
+<script src='../js/lib/bootstrap.min.js'></script>
+<script src='../js/lib/dexie.min.js'></script>
+<script src='../js/lib/angular.min.js'></script>
+<script src='../js/lib/angular-animate.min.js'></script>
+<script src='../js/lib/angular-aria.min.js'></script>
+<script src='../js/lib/angular-route.min.js'></script>
+<script src='../js/lib/angular-messages.min.js'></script>
+<script src='../js/lib/angular-material.min.js'></script>
+<script src='../js/app.js'></script>
+<script src='../js/routes.js'></script>
+<script src='../js/controllers.js'></script>
+<script src='../js/services.js'></script>
 </html>
